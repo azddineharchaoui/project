@@ -31,14 +31,14 @@ void ajouterTache() {
             return;
         }
         taches[count].id = count;
-        printf("Titre de la tâche : ");
+        printf("Titre de la tache : ");
         scanf(" %[^\n]s", taches[count].titre);
-        printf("Description de la tâche : ");
+        printf("Description de la tache : ");
         scanf(" %[^\n]s", taches[count].description);
         printf("Deadline (heure jour mois) : ");
         scanf("%d %d %d", &taches[count].deadline.heure, &taches[count].deadline.jour, &taches[count].deadline.mois);
         printf("Statut (0 - a realiser, 1 - en cours, 2 - finalisee) : ");
-        scanf("%d", (int*)&taches[count].st);
+        scanf("%d", &taches[count].st);
         count++;
     }
 }
@@ -48,20 +48,20 @@ void afficherTaches() {
         printf("id: %d\n",taches[i].id);
         printf("Titre: %s\n",taches[i].titre);
         printf("Description: %s\n",taches[i].description);
-        printf("Deadline: %d/%d/%d\n", taches[i].deadline.jour,
-               taches[i].deadline.mois, taches[i].deadline.heure);
-        printf("Statut: %d\n\n", (int)taches[i].st);
+        printf("Deadline: %d/%d/%d\n", taches[i].deadline.heure,
+               taches[i].deadline.jour, taches[i].deadline.mois);
+        printf("Statut: %d\n\n", taches[i].st);
     }
 }
 
 void trierTachesAlpha() {
     Tache temp;
     for (int i = 0; i < count - 1; i++) {
-        for (int j = i + 1; j < count; j++) {
-            if (strcmp(taches[i].titre, taches[j].titre) > 0) {
-                temp = taches[i];
-                taches[i] = taches[j];
-                taches[j] = temp;
+        for (int j = 0; j < count-i-1; j++) {
+            if (strcmp(taches[j].titre, taches[j+1].titre) > 0) {
+                *temp = taches[j];
+                taches[j] = taches[j+1];
+                taches[j+1] = *temp;
             }
         }
     }
@@ -82,7 +82,7 @@ void trierTachesD() {
             }
         }
     }
-    printf("Les tâches ont été triées par deadline.\n");
+    printf("Les taches ont ete triees par deadline.\n");
     afficherTaches();
 }
 
@@ -197,6 +197,7 @@ int main(){
     int choix4;
     int choix5;
     int choix6;
+
     do{
         printf("---Menu---\n\n");
         printf("1- Ajouter une nouvelle tache \n");
